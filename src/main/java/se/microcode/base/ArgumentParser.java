@@ -10,9 +10,10 @@ import java.util.Map;
 
 public class ArgumentParser
 {
-    public static Object parse(Object args, Map<String, String> params, ArgumentResolver resolver) throws ClassCastException
+    private static final HashMap<Class<?>,Class<?>> classes;
+    static
     {
-        HashMap<Class<?>,Class<?>> classes = new HashMap<Class<?>, Class<?>>();
+        classes = new HashMap<Class<?>, Class<?>>();
         classes.put(boolean.class, Boolean.class);
         classes.put(byte.class, Byte.class);
         classes.put(short.class, Short.class);
@@ -21,7 +22,10 @@ public class ArgumentParser
         classes.put(long.class, Long.class);
         classes.put(float.class, Float.class);
         classes.put(double.class, Double.class);
+    }
 
+    public static Object parse(Object args, Map<String, String> params, ArgumentResolver resolver) throws ClassCastException
+    {
         for (Field f : args.getClass().getFields())
         {
             Argument argument = (Argument)f.getAnnotation(Argument.class);
@@ -35,7 +39,7 @@ public class ArgumentParser
             }
             else
             {
-                name = f.getName().toLowerCase();
+                name = f.getName();
                 source = ArgumentSource.PARAMETERS;
             }
 
@@ -145,63 +149,6 @@ public class ArgumentParser
                         f.set(args, value);
                     }
                 }
-                /*
-                if (c == String.class)
-                {
-                    f.set(args, value);
-                }
-                else if (c == int.class)
-                {
-                    f.setInt(args, Integer.valueOf(value));
-                }
-                else if (c == boolean.class)
-                {
-                    f.setBoolean(args, Boolean.valueOf(value));
-                }
-                else if (c.isEnum())
-                {
-                    f.set(args, Enum.valueOf((Class<Enum>)f.getType(), value.toUpperCase()));
-                }
-                else if (c.isArray())
-                {
-                    String values[] = value.split(",");
-                    Class<?> ic = c.getComponentType();
-
-                    if (ic == String.class)
-                    {
-                        f.set(args, values);
-                    }
-                    else if (ic == int.class)
-                    {
-                        int ivalues[] = new int[values.length];
-                        for (int i = 0, n = values.length; i != n; ++i)
-                        {
-                            ivalues[i] = Integer.valueOf(values[i]);
-                        }
-                        f.set(args, ivalues);
-                    }
-                    else if (ic == boolean.class)
-                    {
-                        boolean bvalues = new boolean[values.length];
-                        for (int i = 0, n = values.length; i != n; ++i)
-                        {
-                            bvalues[i] = Boolean.valueOf(values[i]);
-                        }
-                        f.set(args, bvalues);
-                    }
-                    else if (ic.isEnum())
-                    {
-
-                    }
-                    else
-                    {
-                        throw new ClassCastException("Invalid argument declaration");
-                    }
-                }
-                else
-                {
-                    throw new ClassCastException("Invalid argument declaration");
-                }*/
             }
             catch (IllegalAccessException e)
             {
