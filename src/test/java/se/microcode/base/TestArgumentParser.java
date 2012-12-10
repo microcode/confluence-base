@@ -2,7 +2,6 @@ package se.microcode.base;
 
 import junit.framework.TestCase;
 import se.microcode.base.ArgumentParser;
-import sun.jvm.hotspot.debugger.cdbg.basic.BasicEnumType;
 
 import java.util.HashMap;
 
@@ -54,3 +53,4 @@ public class TestArgumentParser extends TestCase
         assertEquals(args.test8, "test8");
     }
 }
+
