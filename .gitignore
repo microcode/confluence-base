@@ -1,6 +1,7 @@
 .DS_Store
 .metadata
-.idea/workspace.xml
+.idea
+*.iml
 *.swp
 *.swo
 target/

@@ -1,6 +1,5 @@
 package se.microcode.base;
 
-import aQute.lib.osgi.Clazz;
 import com.opensymphony.webwork.ServletActionContext;
 
 import javax.servlet.http.HttpServletRequest;
